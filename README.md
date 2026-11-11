@@ -20,10 +20,10 @@ This project implements a fully localized, privacy-focused Retrieval-Augmented G
 ## Project Flow
 
 ## Pros And Cons
-* Pros
+### Pros
  * Complete Data Privacy: Runs entirely on local infrastructure using Ollama and PostgreSQL, ensuring sensitive internal HR documents never leave company servers.
  * Table and Markdown Preservation: Utilizes specialized parsing to extract tables into structured Markdown chunks, preventing numeric and policy lookups from breaking.
  * Zero-Hallucination Grounding: Enforces strict prompt boundaries so the local LLM answers using only retrieved database context or explicitly declines to guess.
-* Cons
+## Cons
  * Infrastructure Overhead: Demands local compute resources to host PostgreSQL with the pgvector extension and run local embedding and generation models. 
  * Maintenance Effort: Requires manual management of database updates, pipeline scripts, and local model versioning.
