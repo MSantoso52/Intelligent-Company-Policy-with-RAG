@@ -14,6 +14,37 @@ This project implements a fully localized, privacy-focused Retrieval-Augmented G
   * LLM Hallucinations: General-purpose language models often guess or invent company policies rather than restricting answers strictly to official documentation.
 
 ## Prerequisites
+* Install Ollama with free LLM model example `gemma2:2b` for reasoning and `nomic-embed-text` for generate vector embedding
+  ```bash
+  sudo pacman -S ollama
+
+  ollama --version
+  ollama version is 0.33.3
+
+  ollama pull gemma2:2b
+  ollama pull nomic-embed-text
+
+  ollama ls
+  NAME                       ID              SIZE      MODIFIED
+  nomic-embed-text:latest    0a109f422b47    274 MB    3 weeks ago
+  gemma2:2b                  8ccf136fdd52    1.6 GB    2 months ago  
+  
+  ```
+* Install `PostgreSQL` with `pgvector` for database
+  ```bash
+  podman exec -it vector_db psql -U pgvector -d vectordb
+
+  podman ps
+  CONTAINER ID  IMAGE                             COMMAND     CREATED      STATUS            PORTS                   NAMES
+  9bee8589eafb  docker.io/pgvector/pgvector:pg17  postgres    3 weeks ago  Up About an hour  0.0.0.0:5432->5432/tcp  vector_db 
+  ```
+* Install `streamlit` for web app
+  ```bash
+  sudo pacman -S python-streamlit
+
+  streamlit version
+  Streamlit, version 1.66.0
+  ```
 
 ## Requirements
 
@@ -24,6 +55,6 @@ This project implements a fully localized, privacy-focused Retrieval-Augmented G
  * Complete Data Privacy: Runs entirely on local infrastructure using Ollama and PostgreSQL, ensuring sensitive internal HR documents never leave company servers.
  * Table and Markdown Preservation: Utilizes specialized parsing to extract tables into structured Markdown chunks, preventing numeric and policy lookups from breaking.
  * Zero-Hallucination Grounding: Enforces strict prompt boundaries so the local LLM answers using only retrieved database context or explicitly declines to guess.
-## Cons
+### Cons
  * Infrastructure Overhead: Demands local compute resources to host PostgreSQL with the pgvector extension and run local embedding and generation models. 
  * Maintenance Effort: Requires manual management of database updates, pipeline scripts, and local model versioning.
