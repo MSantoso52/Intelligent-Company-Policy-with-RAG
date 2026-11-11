@@ -16,7 +16,7 @@ This project implements a fully localized, privacy-focused Retrieval-Augmented G
 
   * LLM Hallucinations: General-purpose language models often guess or invent company policies rather than restricting answers strictly to official documentation.
 
-## Prerequisites
+## Prerequisites And Requirement
 * Install Ollama with free LLM model example `gemma2:2b` for reasoning and `nomic-embed-text` for generate vector embedding
   ```bash
   sudo pacman -S ollama
@@ -48,10 +48,25 @@ This project implements a fully localized, privacy-focused Retrieval-Augmented G
   streamlit version
   Streamlit, version 1.66.0
   ```
-
-## Requirements
-
+  
 ## Project Flow
+### Document Ingestion and Table Parsing
+* Load the corporate policy PDF document using pdfplumber to analyze page structures.
+* Extract tables explicitly by locating boundaries and converting rows into structured Markdown blocks to preserve tabular integrity.
+* Apply character-based chunking to non-table prose text with defined chunk sizes and overlaps.
+### Vector Database Setup and Embedding GenerationInitialize a local
+* PostgreSQL database and enable the pgvector extension to store high-dimensional vectors.
+* Send generated text and Markdown chunks to Ollama using the nomic-embed-text model to produce 768-dimensional vector embeddings.
+* Upsert and store the raw text content alongside its corresponding vector array into the database.
+### Semantic Search and Retrieval
+* Capture user queries and generate query vector embeddings via Ollama.
+* Execute a vector similarity search in PostgreSQL using cosine distance ($<=>$) to fetch the top-k most relevant policy chunks.
+### Augmented Prompt Construction
+* Aggregate the retrieved database chunks into a unified context block.
+* Build an augmented prompt enforcing strict response boundaries, requiring the LLM to answer using only the provided context and decline unanswerable questions without hallucinating.
+### Local LLM Generation
+* Pass the structured prompt to the local gemma2:2b model via Ollama.
+* Output the final, grounded response directly to the user interface.   
 
 ## Pros And Cons
 ### Pros
