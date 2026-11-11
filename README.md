@@ -1,6 +1,6 @@
 # Intelligent-Company-Policy-with-RAG
 
-
+https://github.com/user-attachments/assets/3cde7a6d-ba3a-47f2-b2d4-ce1616b831bb
 
 End-to-end Building An Intelligent Company Policy with RAG 
 
